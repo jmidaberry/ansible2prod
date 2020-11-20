@@ -9,6 +9,18 @@
     - name: Ver los facts
       debug:
         var: ansible_facts
+        
+    - name: Install {{ servidor }}
+      yum:
+        name: "{{ servidor }}"
+        state: latest
+
+    - name: "{{ estado }} {{ servidor }}"
+      service:
+        name: "{{ servidor }}"
+        enabled: true
+        state: "{{ estado }}"
+
 
     - name: Install apache
       yum:
@@ -33,7 +45,9 @@
         state: started
         
   handlers:
-    - name: restart apache
+    - name: restart {{ servidor }}
       service:
-        name: apache2
+        name: "{{ servidor }}"
         state: restarted
+
+ 
